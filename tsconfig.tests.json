@@ -1,0 +1,10 @@
+{
+	"extends": "./node_modules/@dojo/scripts/tsconfig/umd.json",
+	"compilerOptions": {
+		"rootDir": "."
+	},
+	"include": [
+		"./src/interfaces.d.ts",
+		"./tests/**/*.ts"
+	]
+}

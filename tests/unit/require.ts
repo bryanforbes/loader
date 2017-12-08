@@ -63,11 +63,11 @@ intern.getInterface('object').registerSuite('require', () => {
 					// This module exists in the "node_modules" folder, so the loader will fail to locate it, but should
 					// use the Node.js 'require' to load it, which should succeed (since Node.js automatically checks
 					// the "node_modules" folder)
-					'grunt/lib/grunt/option',
-					'_build/tests/common/app'
-				], dfd.callback(function (gruntOption: any, app: any) {
-					assert.isFunction(gruntOption, '"grunt/option" module should load and be a function');
-					assert.isFunction(gruntOption.init, '"grunt/option" module should load and be valid');
+					'typescript/lib/tsserverlibrary',
+					'dist/testing/tests/common/app'
+				], dfd.callback(function (tsserverLib: any, app: any) {
+					assert.isObject(tsserverLib, '"tesserverlibrary" module should load and be an object');
+					assert.isFunction(tsserverLib.writeFile, '"tesserverlibrary" module should load and be valid');
 					assert.strictEqual(app, 'app', '"app" module should load');
 				}));
 			},
@@ -101,7 +101,7 @@ intern.getInterface('object').registerSuite('require', () => {
 
 				global.require([
 					'bad/module/id'
-				], dfd.rejectOnError(function (gruntOption: any, app: any) {
+				], dfd.rejectOnError(function () {
 					assert.fail(null, null, 'Dependency with bad module id should not be resolved');
 				}));
 			},
@@ -221,7 +221,7 @@ intern.getInterface('object').registerSuite('require', () => {
 				setErrorHandler(dfd);
 
 				global.require([
-					'_build/tests/common/amd/onlyFactory'
+					'dist/testing/tests/common/amd/onlyFactory'
 				], dfd.callback(function (onlyFactory: any) {
 					assert.strictEqual(onlyFactory.property, 'value', 'AMD module with no dependencies should load');
 				}));
@@ -235,7 +235,7 @@ intern.getInterface('object').registerSuite('require', () => {
 						setErrorHandler(dfd);
 
 						global.require([
-							'_build/tests/common/app'
+							'dist/testing/tests/common/app'
 						], dfd.callback(function (app: any) {
 							assert.strictEqual(app, 'app', '"app" module should load');
 						}));
@@ -247,7 +247,7 @@ intern.getInterface('object').registerSuite('require', () => {
 						setErrorHandler(dfd);
 
 						global.require.config({
-							baseUrl: './_build/tests'
+							baseUrl: './dist/testing/tests'
 						});
 
 						global.require([
@@ -267,7 +267,7 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								'*': {
-									'mapped': './_build/tests/common'
+									'mapped': './dist/testing/tests/common'
 								}
 							}
 						});
@@ -287,13 +287,13 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								common: {
-									mapped: './_build/tests/common'
+									mapped: './dist/testing/tests/common'
 								}
 							},
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -313,16 +313,16 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								common: {
-									mapped: './_build/tests/common'
+									mapped: './dist/testing/tests/common'
 								},
 								'common/a': {
-									mapped: './_build/tests/common/a'
+									mapped: './dist/testing/tests/common/a'
 								}
 							},
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -342,13 +342,13 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								common: {
-									mapped: './_build/tests/common'
+									mapped: './dist/testing/tests/common'
 								}
 							},
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -356,7 +356,7 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								'common/a': {
-									mapped: './_build/tests/common/a'
+									mapped: './dist/testing/tests/common/a'
 								}
 							}
 						});
@@ -378,13 +378,13 @@ intern.getInterface('object').registerSuite('require', () => {
 						global.require.config({
 							map: {
 								'common/a': {
-									'common/a': './_build/tests/common'
+									'common/a': './dist/testing/tests/common'
 								}
 							},
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -414,7 +414,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -445,7 +445,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -470,7 +470,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common'
+									location: './dist/testing/tests/common'
 								}
 							]
 						});
@@ -491,7 +491,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: 'common',
-									location: './_build/tests/common',
+									location: './dist/testing/tests/common',
 									main: 'app'
 								}
 							]
@@ -512,7 +512,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: '@test/common',
-									location: './_build/tests/common',
+									location: './dist/testing/tests/common',
 									main: 'app'
 								}
 							]
@@ -533,7 +533,7 @@ intern.getInterface('object').registerSuite('require', () => {
 							packages: [
 								{
 									name: '@test',
-									location: './_build/tests',
+									location: './dist/testing/tests',
 									main: 'app'
 								}
 							]
@@ -555,7 +555,7 @@ intern.getInterface('object').registerSuite('require', () => {
 
 						global.require.config({
 							paths: {
-								common: '_build/tests/common'
+								common: 'dist/testing/tests/common'
 							}
 						});
 
@@ -633,7 +633,7 @@ intern.getInterface('object').registerSuite('require', () => {
 				}));
 
 				global.require.config({
-					baseUrl: './_build/tests'
+					baseUrl: './dist/testing/tests'
 				});
 
 				global.require([
@@ -650,20 +650,20 @@ intern.getInterface('object').registerSuite('require', () => {
 				global.define('common/a/toUrlTest', [
 					'require'
 				], dfd.callback(function (contextRequire: any) {
-					assert.strictEqual(global.require.toUrl('mid'), '_build/tests/mid');
-					assert.strictEqual(global.require.toUrl('./mid'), '_build/tests/mid');
-					assert.strictEqual(global.require.toUrl('common/mid'), '_build/tests/common/mid');
+					assert.strictEqual(global.require.toUrl('mid'), 'dist/testing/tests/mid');
+					assert.strictEqual(global.require.toUrl('./mid'), 'dist/testing/tests/mid');
+					assert.strictEqual(global.require.toUrl('common/mid'), 'dist/testing/tests/common/mid');
 
-					assert.strictEqual(contextRequire.toUrl('mid'), '_build/tests/mid');
-					assert.strictEqual(contextRequire.toUrl('./mid'), '_build/tests/common/a/mid');
-					assert.strictEqual(contextRequire.toUrl('../mid'), '_build/tests/common/mid');
-					assert.strictEqual(contextRequire.toUrl('package/mid'), '_build/tests/package/mid');
-					assert.strictEqual(contextRequire.toUrl('./package/mid'), '_build/tests/common/a/package/mid');
-					assert.strictEqual(contextRequire.toUrl('../package/mid'), '_build/tests/common/package/mid');
+					assert.strictEqual(contextRequire.toUrl('mid'), 'dist/testing/tests/mid');
+					assert.strictEqual(contextRequire.toUrl('./mid'), 'dist/testing/tests/common/a/mid');
+					assert.strictEqual(contextRequire.toUrl('../mid'), 'dist/testing/tests/common/mid');
+					assert.strictEqual(contextRequire.toUrl('package/mid'), 'dist/testing/tests/package/mid');
+					assert.strictEqual(contextRequire.toUrl('./package/mid'), 'dist/testing/tests/common/a/package/mid');
+					assert.strictEqual(contextRequire.toUrl('../package/mid'), 'dist/testing/tests/common/package/mid');
 				}));
 
 				global.require.config({
-					baseUrl: './_build/tests'
+					baseUrl: './dist/testing/tests'
 				});
 
 				global.require([
@@ -687,7 +687,7 @@ intern.getInterface('object').registerSuite('require', () => {
 					packages: [
 						{
 							name: 'common',
-							location: './_build/tests/common'
+							location: './dist/testing/tests/common'
 						}
 					]
 				});
@@ -709,7 +709,7 @@ intern.getInterface('object').registerSuite('require', () => {
 						packages: [
 							{
 								name: 'recursive',
-								location: './_build/tests/common/recursive'
+								location: './dist/testing/tests/common/recursive'
 							}
 						]
 					});
@@ -787,7 +787,7 @@ intern.getInterface('object').registerSuite('require', () => {
 					packages: [
 						{
 							name: 'recursive',
-							location: './_build/tests/common/recursive'
+							location: './dist/testing/tests/common/recursive'
 						}
 					]
 				});
@@ -806,7 +806,7 @@ intern.getInterface('object').registerSuite('require', () => {
 					packages: [
 						{
 							name: 'common',
-							location: './_build/tests/common'
+							location: './dist/testing/tests/common'
 						}
 					]
 				});
@@ -835,7 +835,7 @@ intern.getInterface('object').registerSuite('require', () => {
 					packages: [
 						{
 							name: 'common',
-							location: './_build/tests/common'
+							location: './dist/testing/tests/common'
 						}
 					]
 				});
@@ -865,7 +865,7 @@ intern.getInterface('object').registerSuite('require', () => {
 
 					global.require.config({
 						paths: {
-							common: '_build/tests/common'
+							common: 'dist/testing/tests/common'
 						}
 					});
 
@@ -879,7 +879,7 @@ intern.getInterface('object').registerSuite('require', () => {
 				config(this: any) {
 					const dfd = this.async(DEFAULT_TIMEOUT);
 					const paths: { [path: string]: string } = {
-						common: '_build/tests/common'
+						common: 'dist/testing/tests/common'
 					};
 
 					global.require.config({ paths });
@@ -896,7 +896,7 @@ intern.getInterface('object').registerSuite('require', () => {
 				mergedConfig(this: any) {
 					const dfd = this.async(DEFAULT_TIMEOUT);
 					const paths: { [path: string]: string }  = {
-						common: '_build/tests/common'
+						common: 'dist/testing/tests/common'
 					};
 					const map: DojoLoader.ModuleMap = {
 						foo: 'bar'
@@ -918,7 +918,7 @@ intern.getInterface('object').registerSuite('require', () => {
 
 					global.require.config({
 						paths: {
-							common: '_build/tests/common'
+							common: 'dist/testing/tests/common'
 						}
 					});
 

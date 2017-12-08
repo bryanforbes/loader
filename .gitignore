@@ -13,6 +13,6 @@ bower_components
 tests/typings/dist/
 .baseDir.ts
 /html-report
-coverage-final.lcov
+/coverage.json
 /_apidoc
 deploy_key
